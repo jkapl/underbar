@@ -58,7 +58,6 @@
      }
   }
 
-
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
   _.indexOf = function(array, target){
@@ -78,16 +77,42 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    var result = [];
+    _.each(collection, function(item) {
+      if (test(item)) {
+        result.push(item)
+      }
+    })
+    return result;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
+    var match = _.filter(collection, test)
+    var retArr = [];
+    for (var i=0; i<collection.length; i++) {
+      if (_.indexOf(match, collection[i]) === -1) {
+        retArr.push(collection[i]);
+      }
+    }
+    return retArr;
+
+    //return _.filter(collection, !test)
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    //if (isSorted) { return [] }
+    var filteredArr = array.slice();
+    var returnArr = [];
+    while (filteredArr.length > 0) 
+    {
+       returnArr.push(filteredArr[0]);
+       filteredArr = filteredArr.filter(x => x !== filteredArr[0])
+    }
+    return returnArr;
   };
 
 
