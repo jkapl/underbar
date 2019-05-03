@@ -118,6 +118,21 @@
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
+    var returnArr = [];
+    var returnObj = {};
+    if (Array.isArray(collection)) {
+      for (var i=0; i<collection.length; i++) {
+        returnArr.push(iterator(collection[i]));
+      }
+      return returnArr;
+    } else {
+      for (var i in collection) {
+        returnObj(iterator(i)) = iterator(collection[i]);
+      }
+      return returnObj;
+    }
+    ////if array iterate over enumerated keys
+    ////if object iterate over keys and values
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
@@ -141,6 +156,8 @@
     });
   };
 
+  //_.pluck([{age:5},{age:7},{age:10}],'age');
+
   // Reduces an array or object to a single value by repetitively calling
   // iterator(accumulator, item) for each item. accumulator should be
   // the return value of the previous iterator call.
@@ -161,8 +178,29 @@
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
+  //iterator(value, key, collection)
   _.reduce = function(collection, iterator, accumulator) {
-  };
+    console.log(accumulator)
+    var accumulator = accumulator;
+    var item = collection[0];
+    if (accumulator === undefined) { 
+      accumulator = collection[0];
+      for (var i=1;i<collection.length;i++) {
+        accumulator = iterator(accumulator, collection[i])
+      }
+      return accumulator;
+    }
+    
+    //console.log(arguments)
+    for (var i=0; i<collection.length; i++) { 
+      accumulator = iterator(accumulator, collection[i]);
+    }
+
+    return accumulator;
+  }
+
+
+
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
