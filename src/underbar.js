@@ -116,27 +116,33 @@
   };
 
 
-  // Return the results of applying an iterator to each element.
+//  Return the results of applying an iterator to each element.
+  // _.map = function(collection, iterator) {
+  //   var returnArr = [];
+  //   var returnObj = {};
+  //   if (Array.isArray(collection)) {
+  //     for (var i=0; i<collection.length; i++) {
+  //       returnArr.push(iterator(collection[i]));
+  //     }
+  //     return returnArr;
+  //   } else {
+  //     for (var i in collection) {
+  //       returnObj(iterator(i)) = iterator(collection[i]);
+  //     }
+  //     return returnObj;
+  //   }
+  //   // map() is a useful primitive iteration function that works a lot
+  //   // like each(), but in addition to running the operation on all
+  //   // the members, it also maintains an array of results.
+  // };
+
   _.map = function(collection, iterator) {
-    var returnArr = [];
-    var returnObj = {};
-    if (Array.isArray(collection)) {
-      for (var i=0; i<collection.length; i++) {
-        returnArr.push(iterator(collection[i]));
-      }
-      return returnArr;
-    } else {
-      for (var i in collection) {
-        returnObj(iterator(i)) = iterator(collection[i]);
-      }
-      return returnObj;
-    }
-    ////if array iterate over enumerated keys
-    ////if object iterate over keys and values
-    // map() is a useful primitive iteration function that works a lot
-    // like each(), but in addition to running the operation on all
-    // the members, it also maintains an array of results.
-  };
+    var result = [];
+    _.each(collection, function(i) {
+      result.push(iterator(i));
+    })
+    return result;
+  }
 
   /*
    * TIP: map is really handy when you want to transform an array of
@@ -180,7 +186,7 @@
   //          No accumulator is given so the first element is used.
   //iterator(value, key, collection)
   _.reduce = function(collection, iterator, accumulator) {
-    console.log(accumulator)
+    //console.log(accumulator)
     var accumulator = accumulator;
     var item = collection[0];
     if (accumulator === undefined) { 
