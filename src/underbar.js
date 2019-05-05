@@ -185,28 +185,47 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   //iterator(value, key, collection)
+
   _.reduce = function(collection, iterator, accumulator) {
-    //console.log(accumulator)
+    if (Array.isArray(collection)) {
+      var accumulator = accumulator;
+      var item = collection[0];
+      if (accumulator === undefined) { 
+        accumulator = collection[0];
+        for (var i=1;i<collection.length;i++) {
+          accumulator = iterator(accumulator, collection[i])
+        }
+        return accumulator;
+      }
+      for (var i=0; i<collection.length; i++) { 
+        accumulator = iterator(accumulator, collection[i]);
+      }
+      return accumulator;   
+    }
     var accumulator = accumulator;
-    var item = collection[0];
+    var item = collection[Object.keys(collection)[0]];
+    var length = Object.keys(collection).length;
     if (accumulator === undefined) { 
-      accumulator = collection[0];
-      for (var i=1;i<collection.length;i++) {
-        accumulator = iterator(accumulator, collection[i])
+      accumulator = item;
+      for (var i=1;i<length;i++) {
+        accumulator = iterator(accumulator, collection[Object.keys(collection)[i]])
       }
       return accumulator;
     }
-    
-    //console.log(arguments)
-    for (var i=0; i<collection.length; i++) { 
-      accumulator = iterator(accumulator, collection[i]);
+    for (var i=0; i<length; i++) { 
+      accumulator = iterator(accumulator, collection[Object.keys(collection)[i]]);
     }
-
-    return accumulator;
+    return accumulator;   
   }
 
 
-
+  // _.reduce = function (collection, iterator, accumulator) {
+  //   accumulator = accumulator || (!Array.isArray(collection)) ? collection[Object.keys(collection)[0]] : collection[0];
+  //   _.each(collection, function() {
+  //      accumulator += iterator(accumulator, item);
+  //   })
+  //   return accumulator;
+  // }
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
@@ -224,7 +243,21 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
-  };
+    if (typeof arguments[1] !== 'function') { 
+      for (var i=0; i< collection.length; i++) {
+        if (!collection[i]) { 
+          return false 
+        }
+      }
+      return true
+    }
+    return _.reduce(collection, function(accumulator, item) {
+     if (!accumulator) {
+        return false; 
+      }
+      return Boolean(iterator(item));
+    }, true);
+  }
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
