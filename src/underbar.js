@@ -104,7 +104,6 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
-    //if (isSorted) { return [] }
     var filteredArr = array.slice();
     var returnArr = [];
     while (filteredArr.length > 0) 
@@ -263,6 +262,15 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if (collection.length === 0) { return false }
+    if (arguments.length === 1) { return _.contains(collection, true) }  
+    // for (var i=0; i< collection.length; i++) {
+    //   return _.every(collection.slice(i,i+1), iterator);
+    // }
+    for (var i=0; i<collection.length; i++) {
+      if (iterator(collection[i])) { return true }
+    }
+  return false
   };
 
 
