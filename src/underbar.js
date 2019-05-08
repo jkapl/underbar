@@ -293,6 +293,23 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+  
+  var argFunc = function sortArgs() {
+    return Array.from(arguments).sort(function (a, b) { return a - b; });
+  }
+  var argArr = argFunc(arguments)
+  //console.log(argArr[0]);
+  var returnObj = {};
+
+  for (var i=0;i<argArr[0].length;i++) {
+    for (var j in argArr[0][i])
+      returnObj[j] = argArr[0][i][j];
+    //  console.log(j)
+    //  console.log(argArr[0][i][j])
+  }
+  console.log(returnObj)
+  return returnObj;
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already
