@@ -303,18 +303,43 @@
 
   for (var i=0;i<argArr[0].length;i++) {
     for (var j in argArr[0][i])
-      returnObj[j] = argArr[0][i][j];
+      argArr[0][0][j] = argArr[0][i][j];
     //  console.log(j)
     //  console.log(argArr[0][i][j])
   }
-  console.log(returnObj)
-  return returnObj;
+  // console.log(obj)
+  // console.log(argArr[0])
+  // console.log(returnObj)
+  // console.log('---------------')
+  return argArr[0][0];
 
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+  var argFunc = function sortArgs() {
+    return Array.from(arguments).sort(function (a, b) { return a - b; });
+  }
+  var argArr = argFunc(arguments)
+  //console.log(argArr[0]);
+  var returnObj = {};
+
+  for (var i=1;i<argArr[0].length;i++) {
+    //if any keys in first obj match keys in later objects keep value of first obj key
+    for (var j in argArr[0][i]) {
+      if (!argArr[0][0][j] && argArr[0][0][j] !== '' && argArr[0][0][j] !== 0) { argArr[0][0][j] = argArr[0][i][j] }
+      //if (argArr[0][i][j] === undefined) { returnObj[j] = argArr[0][i][j]; }
+      
+     // console.log(j)
+     // console.log(argArr[0][i][j])
+    }
+  }
+  // console.log(obj)
+  // console.log(argArr[0])
+  // console.log(returnObj)
+  // console.log('---------------')
+  return argArr[0][0];
   };
 
 
@@ -340,7 +365,7 @@
     return function() {
       if (!alreadyCalled) {
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
+        // information from one function call to another.
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
@@ -357,7 +382,25 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
+
+  //var memoFunc = _.memoize(function (x) { return x * x })
+  //memoFunc(2)
   _.memoize = function(func) {
+    var argobj = {};
+    
+    return function () {
+      var argArr = JSON.stringify(arguments)
+      if (argobj[argArr] ) { 
+        return argobj[argArr] 
+      }
+  
+      argobj[argArr] = func.apply(this,arguments);
+      
+      return argobj[argArr];
+      
+    }
+
+    
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -367,6 +410,9 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    
+    
+    
   };
 
 
