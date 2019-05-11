@@ -410,10 +410,11 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
-    console.log(arguments.length)
-    if (arguments.length > 2) {return setTimeout (function () {
-      return func.apply(this, arguments)
-    })}
+    
+    if (arguments.length > 2) {
+      return setTimeout (function () {
+        return func.call(this, [arguments[2], arguments[3]] )
+    }), wait}
     return setTimeout(function () {
       return func.apply(this, arguments)
     }, wait)
@@ -463,6 +464,11 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    console.log(functionOrKey)
+    for (var i=0; i< collection.length; i++) {
+      functionOrKey.apply(this, collection[i]);
+    }
+    return collection;
   };
 
   // Sort the object's values by a criterion produced by an iterator.
