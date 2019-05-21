@@ -328,7 +328,7 @@
   for (var i=1;i<argArr[0].length;i++) {
     //if any keys in first obj match keys in later objects keep value of first obj key
     for (var j in argArr[0][i]) {
-      if (!argArr[0][0][j] && argArr[0][0][j] !== '' && argArr[0][0][j] !== 0) { argArr[0][0][j] = argArr[0][i][j] }
+      if (!argArr[0][0][j] && argArr[0][0][j] !== '' && argArr[0][0][j] !== 0 && !Number.isNaN(argArr[0][0][j])) { argArr[0][0][j] = argArr[0][i][j] }
       //if (argArr[0][i][j] === undefined) { returnObj[j] = argArr[0][i][j]; }
       
      // console.log(j)
@@ -460,11 +460,9 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
-    //console.log(functionOrKey)
-    for (var i=0; i< collection.length; i++) {
-      functionOrKey.apply(this, collection[i]);
-    }
-    return collection;
+    console.log(arguments)
+    return _.map(collection, functionOrKey(args))
+    
   };
 
   // Sort the object's values by a criterion produced by an iterator.
