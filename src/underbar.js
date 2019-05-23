@@ -478,6 +478,18 @@
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+    let returnArr = [];
+    if (typeof iterator === 'string') {}
+    if (typeof iterator === 'function') {
+      var unsorted = [];
+      for (var i=0; i<collection.length; i++) {
+        unsorted.push([collection[i], iterator(collection[i])]);
+      }
+      // console.log(collection)
+      // console.log(iterator)
+      // console.log(unsorted);
+    }
+    
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -523,11 +535,38 @@
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
+    let obj = {};
+    let returnArr = [];
+    for (var i=0; i<arguments.length; i++) {
+      for (var j=0; j<arguments[i].length; j++) {
+        obj[arguments[i][j]] = obj[arguments[i][j]]+1 || 1;
+      }
+    }
+    for (var key in obj) {
+      if (obj[key] >= arguments.length) {
+        returnArr.push(key);
+      }
+    }
+    return returnArr;
   };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    let first = arguments[0];
+    let remain = [];
+    let final = [];
+    for (var i=1; i<arguments.length; i++) {
+      for (var j=0; j<arguments[i].length; j++) {
+        remain.push(arguments[i][j]);
+      }
+    }
+    for (var i=0; i<first.length; i++) {
+      if (!_.contains(remain, first[i])) {
+        final.push(first[i]);
+      }
+    }
+    return final;
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
